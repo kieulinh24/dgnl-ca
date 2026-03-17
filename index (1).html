@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Đánh Giá Năng Lực Client Advisor</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy:    #1B3A6B;
+    --navy2:   #2A5298;
+    --gold:    #C8900A;
+    --gold-lt: #F5C842;
+    --white:   #FFFFFF;
+    --offwht:  #F4F6FA;
+    --gray:    #8A9BB0;
+    --txt:     #1A2340;
+    --l1-bg: #D5EAD0; --l1-bd: #4E9040; --l1-txt: #1E4A15;
+    --l2-bg: #FFF3CD; --l2-bd: #B8880A; --l2-txt: #5A3E00;
+    --l3-bg: #FFD9A0; --l3-bd: #B86020; --l3-txt: #5A2A00;
+    --l4-bg: #F4CCCC; --l4-bd: #B03030; --l4-txt: #5A0F0F;
+  }
+
+  body {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    background: var(--offwht);
+    color: var(--txt);
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 32px 16px 64px;
+  }
+
+  .wrap { width: 100%; max-width: 760px; }
+
+  /* ── SCREEN TRANSITIONS ── */
+  .screen { display: none; animation: fadeUp .35s ease; }
+  .screen.active { display: block; }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── INTRO ── */
+  .intro-header {
+    background: var(--navy);
+    border-radius: 16px;
+    padding: 48px 48px 40px;
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .intro-header::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 6px;
+    background: var(--gold-lt);
+  }
+  .intro-tag {
+    display: inline-block;
+    background: var(--gold);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+  }
+  .intro-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.2;
+    margin-bottom: 12px;
+  }
+  .intro-sub {
+    font-size: 14px;
+    color: #CADCFC;
+    line-height: 1.6;
+  }
+  .intro-pills {
+    display: flex;
+    gap: 10px;
+    margin-top: 28px;
+    flex-wrap: wrap;
+  }
+  .intro-pill {
+    background: rgba(255,255,255,.1);
+    border: 1px solid rgba(255,255,255,.2);
+    color: #fff;
+    font-size: 12px;
+    padding: 6px 14px;
+    border-radius: 20px;
+  }
+
+  .intro-groups {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .intro-group-card {
+    background: #fff;
+    border: 1px solid #E0E8F4;
+    border-radius: 12px;
+    padding: 20px 16px;
+    text-align: center;
+  }
+  .intro-group-num {
+    width: 32px; height: 32px;
+    background: var(--navy);
+    color: #fff;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 700;
+    margin: 0 auto 10px;
+  }
+  .intro-group-title { font-size: 13px; font-weight: 600; color: var(--navy); }
+  .intro-group-sub { font-size: 11px; color: var(--gray); margin-top: 4px; }
+
+  .scale-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-bottom: 28px;
+  }
+  .scale-item {
+    border-radius: 8px;
+    padding: 10px 8px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .btn-start {
+    width: 100%;
+    background: var(--navy);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 16px;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background .2s;
+    letter-spacing: .02em;
+  }
+  .btn-start:hover { background: var(--navy2); }
+
+  /* ── PROGRESS ── */
+  .progress-wrap { margin-bottom: 28px; }
+  .progress-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .progress-label { font-size: 12px; color: var(--gray); font-weight: 500; }
+  .progress-frac { font-size: 13px; font-weight: 600; color: var(--navy); }
+  .progress-bar-bg {
+    background: #DDE6F0;
+    border-radius: 99px;
+    height: 6px;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    background: linear-gradient(90deg, var(--navy), var(--navy2));
+    height: 100%;
+    border-radius: 99px;
+    transition: width .4s ease;
+  }
+
+  /* ── QUESTION ── */
+  .q-section-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .07em;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+  .q-section-dot {
+    width: 6px; height: 6px;
+    background: var(--gold);
+    border-radius: 50%;
+  }
+  .q-num-row {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .q-num {
+    width: 34px; height: 34px;
+    background: var(--navy);
+    color: #fff;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; font-weight: 700;
+    flex-shrink: 0;
+  }
+  .q-topic {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--gray);
+  }
+  .q-text {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--txt);
+    line-height: 1.5;
+    margin-bottom: 24px;
+    padding: 20px 24px;
+    background: #fff;
+    border: 1px solid #E0E8F4;
+    border-radius: 12px;
+  }
+
+  .answers { display: flex; flex-direction: column; gap: 10px; }
+  .answer-btn {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    background: #fff;
+    border: 1.5px solid #E0E8F4;
+    border-radius: 12px;
+    padding: 16px 18px;
+    cursor: pointer;
+    text-align: left;
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--txt);
+    transition: all .18s ease;
+    width: 100%;
+  }
+  .answer-btn:hover { border-color: var(--navy); background: #F0F4FB; }
+  .answer-btn.selected { border-color: var(--navy); background: #EEF3FB; }
+
+  .ans-lbl {
+    flex-shrink: 0;
+    width: 32px; height: 32px;
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700;
+    margin-top: 1px;
+  }
+  .ans-lbl-A { background: var(--l1-bg); color: var(--l1-txt); }
+  .ans-lbl-B { background: var(--l2-bg); color: var(--l2-txt); }
+  .ans-lbl-C { background: var(--l3-bg); color: var(--l3-txt); }
+  .ans-lbl-D { background: var(--l4-bg); color: var(--l4-txt); }
+
+  .answer-btn.selected .ans-lbl-A { background: var(--l1-bd); color: #fff; }
+  .answer-btn.selected .ans-lbl-B { background: var(--l2-bd); color: #fff; }
+  .answer-btn.selected .ans-lbl-C { background: var(--l3-bd); color: #fff; }
+  .answer-btn.selected .ans-lbl-D { background: var(--l4-bd); color: #fff; }
+
+  .nav-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 28px;
+    gap: 12px;
+  }
+  .btn-prev {
+    background: transparent;
+    border: 1.5px solid #C8D4E8;
+    color: var(--gray);
+    border-radius: 10px;
+    padding: 12px 22px;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .btn-prev:hover { border-color: var(--navy); color: var(--navy); }
+  .btn-next {
+    flex: 1;
+    background: var(--navy);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 13px 24px;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background .2s;
+    opacity: .4;
+    pointer-events: none;
+  }
+  .btn-next.ready { opacity: 1; pointer-events: all; }
+  .btn-next.ready:hover { background: var(--navy2); }
+
+  /* ── RESULTS ── */
+  .result-header {
+    background: var(--navy);
+    border-radius: 16px;
+    padding: 36px 40px;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .result-header::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 6px;
+    background: var(--gold-lt);
+  }
+  .result-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: #CADCFC;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+  }
+  .result-name {
+    font-size: 26px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 6px;
+  }
+  .result-score-row {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    margin-bottom: 16px;
+  }
+  .result-score-big {
+    font-size: 48px;
+    font-weight: 700;
+    color: var(--gold-lt);
+    line-height: 1;
+  }
+  .result-score-denom { font-size: 20px; color: #7A9CC8; font-weight: 500; }
+  .result-level-badge {
+    display: inline-block;
+    background: var(--gold);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 5px 14px;
+    border-radius: 20px;
+    letter-spacing: .04em;
+  }
+
+  .result-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .result-card {
+    background: #fff;
+    border: 1.5px solid #E0E8F4;
+    border-radius: 12px;
+    padding: 18px 20px;
+  }
+  .result-card-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .07em;
+    color: var(--gray);
+    margin-bottom: 6px;
+  }
+  .result-card-value {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--navy);
+  }
+  .result-card.strength { border-color: var(--l1-bd); }
+  .result-card.improve  { border-color: var(--l4-bd); }
+  .result-card.strength .result-card-label { color: var(--l1-txt); }
+  .result-card.improve  .result-card-label { color: var(--l4-txt); }
+  .result-card.strength .result-card-value { color: var(--l1-txt); }
+  .result-card.improve  .result-card-value { color: var(--l4-txt); }
+
+  /* group bars */
+  .group-section { margin-bottom: 20px; }
+  .group-bar-item { margin-bottom: 14px; }
+  .group-bar-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+  }
+  .group-bar-name { font-size: 13px; font-weight: 600; color: var(--txt); }
+  .group-bar-score { font-size: 13px; font-weight: 700; color: var(--navy); }
+  .group-bar-bg {
+    background: #DDE6F0;
+    border-radius: 99px;
+    height: 8px;
+    overflow: hidden;
+  }
+  .group-bar-fill {
+    height: 100%;
+    border-radius: 99px;
+    transition: width .8s ease;
+  }
+
+  /* level description */
+  .level-desc-card {
+    background: #fff;
+    border: 1.5px solid #E0E8F4;
+    border-radius: 12px;
+    padding: 20px 20px;
+    margin-bottom: 20px;
+  }
+  .level-desc-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 24px;
+  }
+  .level-desc-col { }
+  @media (max-width: 540px) {
+    .level-desc-grid { grid-template-columns: 1fr; }
+    .level-desc-col + .level-desc-col { margin-top: 14px; }
+  }
+  .level-desc-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 10px;
+  }
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 10px;
+  }
+  .level-desc-row {
+    font-size: 13px;
+    line-height: 1.5;
+    color: #3A4A6B;
+    padding: 7px 10px 7px 12px;
+    margin-bottom: 6px;
+    background: #F0F4FA;
+    border-radius: 0 6px 6px 0;
+    border-left: 4px solid #1B3A6B;
+    display: block;
+  }
+  .level-desc-dot { display: none; }
+
+  .btn-retry {
+    width: 100%;
+    background: transparent;
+    border: 1.5px solid #C8D4E8;
+    color: var(--navy);
+    border-radius: 10px;
+    padding: 13px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all .2s;
+    margin-top: 4px;
+  }
+  .btn-retry:hover { background: #EEF3FB; border-color: var(--navy); }
+  .name-block { background:#fff; border:1.5px solid #E0E8F4; border-radius:12px; padding:20px 24px; margin-bottom:20px; }
+  .name-label { display:block; font-size:13px; font-weight:600; color:var(--navy); margin-bottom:8px; }
+  .name-hint  { font-size:11px; color:var(--gray); font-weight:400; margin-left:6px; }
+  .name-input { width:100%; border:1.5px solid #C8D4E8; border-radius:8px; padding:11px 14px; font-size:15px; font-family:inherit; color:var(--txt); outline:none; transition:border-color .2s; background:var(--offwht); }
+  .name-input:focus { border-color:var(--navy); background:#fff; }
+  .name-input::placeholder { color:#B0BDD0; }
+  .btn-submit { width:100%; background:var(--gold); color:#fff; border:none; border-radius:10px; padding:15px; font-size:15px; font-weight:700; font-family:inherit; cursor:pointer; transition:background .2s,opacity .2s; margin-bottom:10px; letter-spacing:.02em; }
+  .btn-submit:hover:not(:disabled) { background:#A87008; }
+  .btn-submit:disabled { opacity:.55; cursor:not-allowed; }
+  .submit-status { border-radius:10px; padding:13px 18px; font-size:13px; font-weight:500; text-align:center; margin-bottom:12px; display:none; }
+  .submit-status.sending { display:block; background:#EEF3FB; color:var(--navy); border:1.5px solid #C8D4E8; }
+  .submit-status.success { display:block; background:var(--l1-bg); color:var(--l1-txt); border:1.5px solid var(--l1-bd); }
+  .submit-status.error   { display:block; background:var(--l4-bg); color:var(--l4-txt); border:1.5px solid var(--l4-bd); }
+  .config-banner { background:#FFF8E6; border:1.5px solid #F5C842; border-radius:10px; padding:14px 18px; font-size:12.5px; color:#5A3E00; line-height:1.6; margin-bottom:20px; }
+
+  /* print */
+  @media print {
+    body { background: #fff; padding: 0; }
+    .btn-next, .btn-prev, .btn-start, .btn-retry, #screen-intro, #screen-question { display: none !important; }
+    #screen-result { display: block !important; }
+    .result-header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+
+  @media (max-width: 540px) {
+    .intro-groups { grid-template-columns: 1fr; }
+    .scale-row { grid-template-columns: 1fr 1fr; }
+    .result-cards { grid-template-columns: 1fr; }
+    .intro-header { padding: 32px 24px; }
+    .result-header { padding: 28px 24px; }
+    .intro-title { font-size: 24px; }
+    .q-text { font-size: 15px; padding: 16px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- ═══ SCREEN: INTRO ═══ -->
+<div class="screen active" id="screen-intro">
+  <div class="intro-header">
+    <div class="intro-tag">Công cụ đánh giá năng lực</div>
+    <div class="intro-title">Đánh Giá Năng Lực<br>Client Advisor</div>
+    <div class="intro-sub">Chọn mô tả gần nhất với cách bạn đang thực hành hiện tại.<br>Không có đáp án đúng hay sai — hãy trả lời thật sự trung thực.</div>
+    <div class="intro-pills">
+      <span class="intro-pill">9 câu hỏi</span>
+      <span class="intro-pill">5–7 phút</span>
+      <span class="intro-pill">Kết quả ngay lập tức</span>
+    </div>
+  </div>
+
+  <div class="intro-groups">
+    <div class="intro-group-card">
+      <div class="intro-group-num">1</div>
+      <div class="intro-group-title">Communication</div>
+      <div class="intro-group-sub">Câu 1 – 3</div>
+    </div>
+    <div class="intro-group-card">
+      <div class="intro-group-num">2</div>
+      <div class="intro-group-title">Needs Discovery</div>
+      <div class="intro-group-sub">Câu 4 – 6</div>
+    </div>
+    <div class="intro-group-card">
+      <div class="intro-group-num">3</div>
+      <div class="intro-group-title">Relationship Mgmt</div>
+      <div class="intro-group-sub">Câu 7 – 9</div>
+    </div>
+  </div>
+
+  <div class="scale-row">
+    <div class="scale-item" style="background:var(--l1-bg);color:var(--l1-txt)">A – Mức 1</div>
+    <div class="scale-item" style="background:var(--l2-bg);color:var(--l2-txt)">B – Mức 2</div>
+    <div class="scale-item" style="background:var(--l3-bg);color:var(--l3-txt)">C – Mức 3</div>
+    <div class="scale-item" style="background:var(--l4-bg);color:var(--l4-txt)">D – Mức 4</div>
+  </div>
+
+  <div class="name-block">
+    <label class="name-label" for="ca-name">Họ tên của bạn <span class="name-hint">(để Trainer nhận diện kết quả)</span></label>
+    <input class="name-input" id="ca-name" type="text" placeholder="Ví dụ: Nguyễn Văn A" autocomplete="off" oninput="checkNameInput()">
+    <label class="name-label" for="ca-id" style="margin-top:14px">Mã nhân viên</label>
+    <input class="name-input" id="ca-id" type="text" placeholder="Ví dụ: CA00123" autocomplete="off">
+  </div>
+
+  <button class="btn-start" id="btn-start" onclick="startAssessment()" disabled style="opacity:.45;cursor:not-allowed">Nhập họ tên để bắt đầu →</button>
+</div>
+
+<!-- ═══ SCREEN: QUESTION ═══ -->
+<div class="screen" id="screen-question">
+  <div class="progress-wrap">
+    <div class="progress-meta">
+      <span class="progress-label" id="progress-section-label"></span>
+      <span class="progress-frac" id="progress-frac"></span>
+    </div>
+    <div class="progress-bar-bg">
+      <div class="progress-bar-fill" id="progress-bar"></div>
+    </div>
+  </div>
+
+  <div class="q-section-tag">
+    <div class="q-section-dot"></div>
+    <span id="q-section-name"></span>
+  </div>
+
+  <div class="q-num-row">
+    <div class="q-num" id="q-num"></div>
+    <div class="q-topic" id="q-topic"></div>
+  </div>
+
+  <div class="q-text" id="q-text"></div>
+
+  <div class="answers" id="answers"></div>
+
+  <div class="nav-row">
+    <button class="btn-prev" id="btn-prev" onclick="prevQ()">← Quay lại</button>
+    <button class="btn-next" id="btn-next" onclick="nextQ()">Câu tiếp theo →</button>
+  </div>
+</div>
+
+<!-- ═══ SCREEN: RESULT ═══ -->
+<div class="screen" id="screen-result">
+
+  <div class="result-header">
+    <div class="result-title">Kết quả tự đánh giá năng lực Client Advisor</div>
+    <div class="result-score-row">
+      <span class="result-score-big" id="res-total-score"></span>
+      <span class="result-score-denom">/36 điểm</span>
+    </div>
+    <div class="result-name" id="res-level-name"></div>
+    <div style="margin-top:8px;"><span class="result-level-badge" id="res-level-badge"></span></div>
+  </div>
+
+  <div id="result-cards-wrap"></div>
+
+  <div class="group-section" id="group-bars"></div>
+
+  <div class="level-desc-card" id="level-desc-card"></div>
+
+  <div class="config-banner" id="config-banner">
+    <strong>⚙️ Chưa kết nối Google Sheets.</strong> Mở file HTML, tìm dòng <code>SHEETS_URL</code> và dán Web App URL vào để bật tính năng lưu dữ liệu.
+  </div>
+
+  <div class="submit-status" id="submit-status"></div>
+
+  <button class="btn-submit" id="btn-submit" onclick="submitToSheets()">
+    Gửi kết quả cho Trainer →
+  </button>
+
+  <button class="btn-retry" onclick="restartAssessment()">← Làm lại từ đầu</button>
+</div>
+
+</div>
+
+<script>
+// ─── CẤU HÌNH ────────────────────────────────────────────────────────────────
+// Sau khi deploy Apps Script, dán Web App URL vào đây:
+var SHEETS_URL = "https://script.google.com/macros/s/AKfycbxe-4fqUOhxmQ0I_LiY_CF0MDDIFLpSLO2CsTrFDDX5ydiPQ8kVhTjjo2I5Eegkzc7K/exec";
+// ─────────────────────────────────────────────────────────────────────────────
+
+const QUESTIONS = [
+  {
+    section: "Communication", qNum: 1,
+    topic: "Lắng nghe chủ động",
+    text: "Trong buổi gặp đầu tiên, khi khách hàng chia sẻ về cuộc sống và tài chính, bạn thường làm gì?",
+    answers: [
+      "Nghe để nắm thông tin chính rồi chuyển sang phần tư vấn",
+      "Lắng nghe và hỏi thêm một vài câu để hiểu nhu cầu tài chính",
+      "Lắng nghe kỹ, phản hồi lại để xác nhận mình hiểu đúng hoàn cảnh khách",
+      "Lắng nghe sâu, khai thác cả bối cảnh sống, cảm xúc và áp lực tài chính trước khi đi tiếp"
+    ]
+  },
+  {
+    section: "Communication", qNum: 2,
+    topic: "Trình bày thuyết phục",
+    text: "Khi bắt đầu trình bày với khách, bạn thường chọn cách nào?",
+    answers: [
+      "Giới thiệu các giải pháp tài chính nổi bật mà mình đang có",
+      "Tóm tắt nhu cầu khách rồi đề xuất giải pháp phù hợp",
+      "Phản chiếu lại bức tranh tài chính của khách rồi đề xuất hướng đi",
+      "Dẫn dắt khách tự nhìn ra khoảng trống tài chính, sau đó cùng xây giải pháp"
+    ]
+  },
+  {
+    section: "Communication", qNum: 3,
+    topic: "Xây dựng niềm tin",
+    text: "Trong giai đoạn đầu làm việc, bạn xây niềm tin với khách chủ yếu bằng cách nào?",
+    answers: [
+      "Cung cấp thông tin đầy đủ và phản hồi nhanh",
+      "Chủ động liên hệ và cập nhật thông tin cho khách",
+      "Tư vấn trung thực, đặt lợi ích khách lên trên giải pháp",
+      "Đồng hành với khách trong các quyết định tài chính quan trọng, không chỉ trong một giao dịch"
+    ]
+  },
+  {
+    section: "Needs Discovery", qNum: 4,
+    topic: "Thấu hiểu bối cảnh khách hàng",
+    text: "Khi tìm hiểu khách hàng, bạn thường dừng ở mức nào?",
+    answers: [
+      "Thu nhập, số tiền có thể đầu tư",
+      "Thêm mục tiêu tài chính và khẩu vị rủi ro",
+      "Hiểu thêm về gia đình, trách nhiệm tài chính và các rủi ro hiện tại",
+      "Hiểu toàn bộ bối cảnh sống: giai đoạn cuộc đời, lifestyle, tài sản – nợ – bảo vệ – kế hoạch tương lai"
+    ]
+  },
+  {
+    section: "Needs Discovery", qNum: 5,
+    topic: "Xác định nỗi đau (Pain points)",
+    text: "Khi khách chưa nhận ra vấn đề tài chính của mình, bạn thường làm gì?",
+    answers: [
+      "Chia sẻ một số giải pháp phổ biến để khách tham khảo",
+      "Hỏi trực tiếp khách đang lo lắng điều gì",
+      "Đặt câu hỏi để khách tự nhận ra những khoảng trống tài chính",
+      "Dẫn dắt khách nhìn từ hiện tại → tương lai → khoảng cách → rủi ro nếu không hành động"
+    ]
+  },
+  {
+    section: "Needs Discovery", qNum: 6,
+    topic: "Làm rõ mục tiêu tài chính",
+    text: "Khi xác định mục tiêu tài chính, bạn thường hiểu theo mức nào?",
+    answers: [
+      "Số tiền và lợi nhuận kỳ vọng",
+      "Các mục tiêu cụ thể (mua nhà, tích lũy, nghỉ hưu)",
+      "Gắn mục tiêu với từng giai đoạn cuộc đời và trách nhiệm gia đình",
+      "Xây mục tiêu như một \"kế hoạch sống\": tài chính + lifestyle + an sinh + di sản"
+    ]
+  },
+  {
+    section: "Relationship Management", qNum: 7,
+    topic: "Xây dựng & mở rộng mạng lưới",
+    text: "Bạn đang phát triển khách hàng mới theo cách nào?",
+    answers: [
+      "Dựa vào data/lead từ công ty",
+      "Khai thác bạn bè, người quen",
+      "Xây network qua khách hiện tại và duy trì quan hệ",
+      "Xây hệ sinh thái quan hệ (khách – đối tác – cộng đồng) để tạo nguồn khách ổn định"
+    ]
+  },
+  {
+    section: "Relationship Management", qNum: 8,
+    topic: "Xử lý xung đột (tái cấu trúc kỳ vọng)",
+    text: "Khách hàng nói: \"Thực tế không giống như tôi kỳ vọng ban đầu.\" Bạn thường phản ứng như thế nào?",
+    answers: [
+      "Giải thích lại rằng thị trường hoặc điều kiện thực tế luôn có biến động",
+      "Tập trung giải thích lý do và trấn an khách rằng kế hoạch vẫn đúng hướng",
+      "Lắng nghe để hiểu kỳ vọng ban đầu của khách và cùng họ xem lại những gì đang diễn ra",
+      "Chủ động cùng khách nhìn lại toàn bộ: mục tiêu – giả định – thực tế, điều chỉnh kỳ vọng và tái thiết kế kế hoạch"
+    ]
+  },
+  {
+    section: "Relationship Management", qNum: 9,
+    topic: "Xử lý từ chối & chốt giao dịch",
+    text: "Khách hàng nói: \"Tôi thấy cũng hợp lý, nhưng để tôi suy nghĩ thêm.\" Bạn phản ứng như thế nào?",
+    answers: [
+      "Dừng lại, giữ liên lạc và chờ khách chủ động quay lại",
+      "Nhấn mạnh lại lợi ích của giải pháp để khách ra quyết định sớm hơn",
+      "Hỏi khách còn băn khoăn điều gì để hiểu rõ lý do họ chưa quyết định",
+      "Nhận diện đây là tín hiệu chưa hiểu đủ khách; khai thác sâu hơn về ưu tiên và lo ngại thực sự"
+    ]
+  }
+];
+
+const LEVELS = [
+  { min: 9,  max: 16, name: "Level 1 – Sales Mindset",    badge: "Sales Mindset",
+    traits:  ["Tập trung vào sản phẩm và giải pháp sẵn có","Phản ứng theo nhu cầu bề mặt của khách","Ít đào sâu bối cảnh và pain point thực sự"],
+    rightLabel: "Rủi ro",
+    right:   ["Khó build trust","Dễ bị từ chối","Phụ thuộc vào lead"] },
+  { min: 17, max: 24, name: "Level 2 – Tư vấn cơ bản",   badge: "Tư vấn cơ bản",
+    traits:  ["Bắt đầu hỏi và hiểu nhu cầu khách hàng","Có tư duy khách hàng nhưng vẫn \"giải pháp trước – khách sau\"","Chưa đào sâu pain point và chưa build được relationship dài hạn"],
+    rightLabel: "Rủi ro",
+    right:   ["Chưa đào sâu pain point","Chưa build được relationship dài hạn"] },
+  { min: 25, max: 31, name: "Level 3 – Advisor",           badge: "Advisor",
+    traits:  ["Nhìn được bức tranh tài chính tổng thể của khách","Biết chẩn đoán nhu cầu và đề xuất giải pháp phù hợp","Bắt đầu build trust – khách hàng quay lại và giới thiệu thêm"],
+    rightLabel: "Điểm mạnh",
+    right:   ["Bắt đầu build trust","Khách hàng quay lại"] },
+  { min: 32, max: 36, name: "Level 4 – Strategic Advisor", badge: "Strategic Advisor",
+    traits:  ["Đồng kiến tạo giải pháp cùng khách – không bán mà đồng hành","Hiểu khách ở level cuộc sống: lifestyle, gia đình, mục tiêu dài hạn","Khách tin tưởng lâu dài, có referral tự nhiên và network bền vững"],
+    rightLabel: "Điểm mạnh",
+    right:   ["Khách tin tưởng lâu dài","Có referral tự nhiên","Build được network bền vững"] }
+];
+
+const GROUPS = [
+  { name: "Communication",           short: "Comm.",       indices: [0,1,2], color: "#2A5298" },
+  { name: "Needs Discovery",         short: "Needs",       indices: [3,4,5], color: "#B86020" },
+  { name: "Relationship Management", short: "Relationship",indices: [6,7,8], color: "#B03030" }
+];
+
+let currentQ = 0;
+let answers = new Array(9).fill(null);
+let caName = "";
+let employeeId = "";
+let submitted = false;
+
+function startAssessment() {
+  caName = (document.getElementById("ca-name").value || "").trim();
+  employeeId = (document.getElementById("ca-id").value || "").trim();
+  submitted = false;
+  showScreen('screen-question');
+  renderQuestion(0);
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  const el = document.getElementById(id);
+  el.classList.add('active');
+  el.style.animation = 'none';
+  el.offsetHeight;
+  el.style.animation = '';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function renderQuestion(idx) {
+  const q = QUESTIONS[idx];
+  const total = QUESTIONS.length;
+
+  document.getElementById('progress-section-label').textContent = q.section;
+  document.getElementById('progress-frac').textContent = `${idx + 1} / ${total}`;
+  document.getElementById('progress-bar').style.width = `${((idx + 1) / total) * 100}%`;
+
+  document.getElementById('q-section-name').textContent = q.section;
+  document.getElementById('q-num').textContent = q.qNum;
+  document.getElementById('q-topic').textContent = q.topic;
+  document.getElementById('q-text').textContent = q.text;
+
+  const labels = ['A','B','C','D'];
+  const container = document.getElementById('answers');
+  container.innerHTML = '';
+  q.answers.forEach(function(ans, i) {
+    const btn = document.createElement('button');
+    btn.className = 'answer-btn' + (answers[idx] === i ? ' selected' : '');
+    btn.innerHTML = `<span class="ans-lbl ans-lbl-${labels[i]}">${labels[i]}</span><span>${ans}</span>`;
+    btn.onclick = function() { selectAnswer(idx, i); };
+    container.appendChild(btn);
+  });
+
+  const prevBtn = document.getElementById('btn-prev');
+  prevBtn.style.display = idx === 0 ? 'none' : '';
+
+  const nextBtn = document.getElementById('btn-next');
+  const isLast = idx === total - 1;
+  nextBtn.textContent = isLast ? 'Xem kết quả →' : 'Câu tiếp theo →';
+  nextBtn.classList.toggle('ready', answers[idx] !== null);
+}
+
+function selectAnswer(qIdx, aIdx) {
+  answers[qIdx] = aIdx;
+  document.querySelectorAll('.answer-btn').forEach(function(btn, i) {
+    btn.classList.toggle('selected', i === aIdx);
+    const lbl = btn.querySelector('.ans-lbl');
+    const labels = ['A','B','C','D'];
+    lbl.className = 'ans-lbl ans-lbl-' + labels[i];
+  });
+  document.getElementById('btn-next').classList.add('ready');
+}
+
+function nextQ() {
+  if (answers[currentQ] === null) return;
+  if (currentQ === QUESTIONS.length - 1) {
+    showResults();
+  } else {
+    currentQ++;
+    renderQuestion(currentQ);
+  }
+}
+
+function prevQ() {
+  if (currentQ > 0) {
+    currentQ--;
+    renderQuestion(currentQ);
+  }
+}
+
+function getLevelByGroups(groupScores) {
+  var weakCount   = groupScores.filter(function(s) { return s < 7; }).length;
+  var strongCount = groupScores.filter(function(s) { return s > 9; }).length;
+  if (strongCount >= 2 && weakCount === 0) return LEVELS[3]; // Level 4
+  if (strongCount >= 1 && weakCount === 0) return LEVELS[2]; // Level 3
+  if (weakCount === 0)                     return LEVELS[2]; // all basic → Level 3
+  if (weakCount === 1)                     return LEVELS[1]; // Level 2
+  return LEVELS[0];                                          // Level 1
+}
+
+function classifyGroup(score) {
+  if (score > 9)  return 'strong';
+  if (score >= 7) return 'basic';
+  return 'weak';
+}
+
+function showResults() {
+  showScreen('screen-result');
+  var banner = document.getElementById("config-banner");
+  if (SHEETS_URL) { banner.style.display = "none"; }
+
+  var totalScore = answers.reduce(function(sum, a) { return sum + (a + 1); }, 0);
+  var groupScores = GROUPS.map(function(g) {
+    return g.indices.reduce(function(s, i) { return s + (answers[i] + 1); }, 0);
+  });
+  var level = getLevelByGroups(groupScores);
+
+  // Classify each group
+  var strongGroups = GROUPS.filter(function(g, i) { return classifyGroup(groupScores[i]) === 'strong'; });
+  var weakGroups   = GROUPS.filter(function(g, i) { return classifyGroup(groupScores[i]) === 'weak'; });
+  var basicGroups  = GROUPS.filter(function(g, i) { return classifyGroup(groupScores[i]) === 'basic'; });
+
+  document.getElementById('res-total-score').textContent = totalScore;
+  document.querySelector('.result-title').textContent = 'Kết quả tự đánh giá · ' + caName;
+  document.getElementById('res-level-name').textContent = level.name;
+  document.getElementById('res-level-badge').textContent = level.badge;
+
+  // Build dynamic summary cards
+  var cardsWrap = document.getElementById('result-cards-wrap');
+  var cardsHtml = '<div class="result-cards">';
+
+  if (strongGroups.length > 0) {
+    cardsHtml += '<div class="result-card strength">'
+      + '<div class="result-card-label">Điểm mạnh</div>'
+      + '<div class="result-card-value">' + strongGroups.map(function(g) { return g.name; }).join('<br>') + '</div>'
+      + '</div>';
+  } else if (basicGroups.length > 0 && weakGroups.length === 0) {
+    cardsHtml += '<div class="result-card" style="border-color:var(--l2-bd)">'
+      + '<div class="result-card-label" style="color:var(--l2-txt)">Tốt nhất hiện tại</div>'
+      + '<div class="result-card-value" style="color:var(--l2-txt)">' + basicGroups.map(function(g) { return g.name; }).join('<br>') + '</div>'
+      + '</div>';
+  }
+
+  if (weakGroups.length > 0) {
+    var improveLabel = weakGroups.length === 3
+      ? 'Cần phát triển cả 3 nhóm kỹ năng'
+      : 'Cần phát triển';
+    cardsHtml += '<div class="result-card improve">'
+      + '<div class="result-card-label">' + improveLabel + '</div>'
+      + '<div class="result-card-value">' + weakGroups.map(function(g) { return g.name; }).join('<br>') + '</div>'
+      + '</div>';
+    if (basicGroups.length > 0) {
+      cardsHtml += '<div class="result-card" style="border-color:var(--l2-bd)">'
+        + '<div class="result-card-label" style="color:var(--l2-txt)">Cơ bản</div>'
+        + '<div class="result-card-value" style="color:var(--l2-txt)">' + basicGroups.map(function(g) { return g.name; }).join('<br>') + '</div>'
+        + '</div>';
+    }
+  } else if (basicGroups.length > 0) {
+    cardsHtml += '<div class="result-card" style="border-color:var(--l2-bd)">'
+      + '<div class="result-card-label" style="color:var(--l2-txt)">Khuyến khích nâng cao cả 3 nhóm kỹ năng</div>'
+      + '<div class="result-card-value" style="color:var(--l2-txt)">' + basicGroups.map(function(g) { return g.name; }).join('<br>') + '</div>'
+      + '</div>';
+  }
+
+  cardsHtml += '</div>';
+  cardsWrap.innerHTML = cardsHtml;
+
+  // Group bars with tier indicator
+  var barColors = { strong: '#4E9040', basic: '#B8880A', weak: '#B03030' };
+  var tierLabel = { strong: 'Điểm mạnh', basic: 'Cơ bản', weak: 'Cần phát triển' };
+  var barsEl = document.getElementById('group-bars');
+  barsEl.innerHTML = '';
+  GROUPS.forEach(function(g, i) {
+    var pct   = Math.round((groupScores[i] / 12) * 100);
+    var tier  = classifyGroup(groupScores[i]);
+    var col   = barColors[tier];
+    var tlbl  = tierLabel[tier];
+    barsEl.innerHTML += '<div class="group-bar-item">'
+      + '<div class="group-bar-meta">'
+      + '<span class="group-bar-name">' + g.name + '</span>'
+      + '<span style="display:flex;align-items:center;gap:8px">'
+      + '<span style="font-size:11px;font-weight:600;padding:2px 8px;border-radius:10px;background:' + col + '22;color:' + col + '">' + tlbl + '</span>'
+      + '<span class="group-bar-score">' + groupScores[i] + '/12</span>'
+      + '</span></div>'
+      + '<div class="group-bar-bg"><div class="group-bar-fill" style="width:0%;background:' + col + '" data-target="' + pct + '%"></div></div>'
+      + '</div>';
+  });
+
+  setTimeout(function() {
+    document.querySelectorAll('.group-bar-fill').forEach(function(el) {
+      el.style.width = el.getAttribute('data-target');
+    });
+  }, 100);
+
+  // Level description — 2 columns: Đặc điểm | Rủi ro / Điểm mạnh
+  var descEl = document.getElementById('level-desc-card');
+  descEl.innerHTML = '<div class="level-desc-title">Đặc điểm</div>'
+    + level.traits.map(function(t) {
+        return '<div style="font-size:13px;line-height:1.5;color:#3A4A6B;padding:7px 10px 7px 12px;margin-bottom:6px;background:#F0F4FA;border-radius:0 6px 6px 0;border-left:4px solid #1B3A6B;display:block">' + t + '</div>';
+      }).join('');
+}
+
+function checkNameInput() {
+  var val = (document.getElementById("ca-name").value || "").trim();
+  var btn = document.getElementById("btn-start");
+  if (val.length >= 2) {
+    btn.disabled = false;
+    btn.style.opacity = "1";
+    btn.style.cursor = "pointer";
+    btn.textContent = "Bắt đầu đánh giá →";
+  } else {
+    btn.disabled = true;
+    btn.style.opacity = ".45";
+    btn.style.cursor = "not-allowed";
+    btn.textContent = "Nhập họ tên để bắt đầu →";
+  }
+}
+
+function submitToSheets() {
+  if (!SHEETS_URL) {
+    setStatus("error", "Chưa cấu hình SHEETS_URL. Liên hệ Trainer để được hỗ trợ.");
+    return;
+  }
+  if (submitted) {
+    setStatus("success", "Kết quả đã được gửi trước đó rồi.");
+    return;
+  }
+
+  var totalScore = answers.reduce(function(s, a) { return s + (a + 1); }, 0);
+  var groupScores = GROUPS.map(function(g) {
+    return g.indices.reduce(function(s, i) { return s + (answers[i] + 1); }, 0);
+  });
+  var level = getLevelByGroups(groupScores);
+
+  var payload = {
+    name:        caName,
+    employeeId:  employeeId,
+    totalScore:  totalScore,
+    level:       level.name,
+    strength:    GROUPS.filter(function(g,i){ return groupScores[i]>9; }).map(function(g){ return g.name; }).join(', ') || 'Chua co diem manh ro rang',
+    improve:     GROUPS.filter(function(g,i){ return groupScores[i]<7; }).map(function(g){ return g.name; }).join(', ') || 'Khong co diem yeu ro rang',
+    groupScores: groupScores,
+    answers:     answers
+  };
+
+  var btn = document.getElementById("btn-submit");
+  btn.disabled = true;
+  setStatus("sending", "Đang gửi kết quả...");
+
+  fetch(SHEETS_URL, {
+    method: "POST",
+    mode: "no-cors",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  }).then(function() {
+    submitted = true;
+    btn.textContent = "Đã gửi thành công";
+    setStatus("success", "Kết quả của " + caName + " đã được ghi vào Google Sheets. Trainer sẽ liên hệ với bạn sớm.");
+  }).catch(function(err) {
+    btn.disabled = false;
+    setStatus("error", "Gửi thất bại — kiểm tra kết nối mạng và thử lại. (" + err.message + ")");
+  });
+}
+
+function setStatus(type, msg) {
+  var el = document.getElementById("submit-status");
+  el.className = "submit-status " + type;
+  el.textContent = msg;
+}
+
+function restartAssessment() {
+  answers = new Array(9).fill(null);
+  currentQ = 0;
+  submitted = false;
+  document.getElementById("ca-name").value = "";
+  document.getElementById("ca-id").value = "";
+  employeeId = "";
+  checkNameInput();
+  document.getElementById("submit-status").className = "submit-status";
+  document.getElementById("submit-status").textContent = "";
+  var btn = document.getElementById("btn-submit");
+  btn.disabled = false;
+  btn.textContent = "Gửi kết quả cho Trainer →";
+  showScreen('screen-intro');
+}
+</script>
+</body>
+</html>
