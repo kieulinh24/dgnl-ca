@@ -546,7 +546,7 @@
   </div>
 
   <div class="name-block">
-    <label class="name-label" for="ca-name">Họ tên của bạn <span class="name-hint">(để Trainer nhận diện kết quả)</span></label>
+    <label class="name-label" for="ca-name">Họ tên của bạn <span class="name-hint">(kết quả sẽ được bảo mật tuyệt đối)</span></label>
     <input class="name-input" id="ca-name" type="text" placeholder="Ví dụ: Nguyễn Văn A" autocomplete="off" oninput="checkNameInput()">
     <label class="name-label" for="ca-id" style="margin-top:14px">Mã nhân viên</label>
     <input class="name-input" id="ca-id" type="text" placeholder="Ví dụ: CA00123" autocomplete="off">
@@ -613,7 +613,7 @@
   <div class="submit-status" id="submit-status"></div>
 
   <button class="btn-submit" id="btn-submit" onclick="submitToSheets()">
-    Gửi kết quả cho Trainer →
+    Gửi kết quả →
   </button>
 
   <button class="btn-retry" onclick="restartAssessment()">← Làm lại từ đầu</button>
@@ -969,7 +969,7 @@ function checkNameInput() {
 
 function submitToSheets() {
   if (!SHEETS_URL) {
-    setStatus("error", "Chưa cấu hình SHEETS_URL. Liên hệ Trainer để được hỗ trợ.");
+    setStatus("error", "Chưa cấu hình SHEETS_URL. Liên hệ đội ngũ vận hành CAPC để được hỗ trợ.");
     return;
   }
   if (submitted) {
@@ -1006,7 +1006,7 @@ function submitToSheets() {
   }).then(function() {
     submitted = true;
     btn.textContent = "Đã gửi thành công";
-    setStatus("success", "Kết quả của " + caName + " đã được ghi vào Google Sheets. Chúng tôi sẽ liên hệ với bạn sớm.");
+    setStatus("success", "Kết quả của " + caName + " đã được ghi lại trên hệ thống. Chúng tôi sẽ liên hệ với bạn sớm.");
   }).catch(function(err) {
     btn.disabled = false;
     setStatus("error", "Gửi thất bại — kiểm tra kết nối mạng và thử lại. (" + err.message + ")");
