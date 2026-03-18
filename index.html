@@ -657,19 +657,19 @@ const QUESTIONS = [
     answers: [
       "Cung cấp thông tin đầy đủ và phản hồi nhanh",
       "Chủ động liên hệ và cập nhật thông tin cho khách",
-      "Tư vấn trung thực, đặt lợi ích khách lên trên giải pháp",
+      "Tư vấn trung thực, đặt lợi ích khách lên trên lợi ích cá nhân",
       "Đồng hành với khách trong các quyết định tài chính quan trọng, không chỉ trong một giao dịch"
     ]
   },
   {
     section: "Needs Discovery", qNum: 4,
     topic: "Thấu hiểu bối cảnh khách hàng",
-    text: "Khi tìm hiểu khách hàng, bạn thường dừng ở mức nào?",
+    text: "Khi tìm hiểu bối cảnh khách hàng, bạn thường dừng ở mức nào?",
     answers: [
       "Thu nhập, số tiền có thể đầu tư",
       "Thêm mục tiêu tài chính và khẩu vị rủi ro",
       "Hiểu thêm về gia đình, trách nhiệm tài chính và các rủi ro hiện tại",
-      "Hiểu toàn bộ bối cảnh sống: giai đoạn cuộc đời, lifestyle, tài sản – nợ – bảo vệ – kế hoạch tương lai"
+      "Hiểu toàn bộ bối cảnh sống: giai đoạn cuộc đời, tài sản – nợ – bảo vệ – kế hoạch tương lai"
     ]
   },
   {
@@ -680,18 +680,18 @@ const QUESTIONS = [
       "Chia sẻ một số giải pháp phổ biến để khách tham khảo",
       "Hỏi trực tiếp khách đang lo lắng điều gì",
       "Đặt câu hỏi để khách tự nhận ra những khoảng trống tài chính",
-      "Dẫn dắt khách nhìn từ hiện tại → tương lai → khoảng cách → rủi ro nếu không hành động"
+      "Dẫn dắt khách nhìn từ hiện tại → mục tiêu → chênh lệch → rủi ro nếu không hành động"
     ]
   },
   {
     section: "Needs Discovery", qNum: 6,
-    topic: "Làm rõ mục tiêu tài chính",
-    text: "Khi xác định mục tiêu tài chính, bạn thường hiểu theo mức nào?",
+    topic: "Làm rõ mục tiêu tài chính của khách",
+    text: "Khi xác định mục tiêu tài chính, bạn thường hiểu khách ở mức nào?",
     answers: [
-      "Số tiền và lợi nhuận kỳ vọng",
-      "Các mục tiêu cụ thể (mua nhà, tích lũy, nghỉ hưu)",
-      "Gắn mục tiêu với từng giai đoạn cuộc đời và trách nhiệm gia đình",
-      "Xây mục tiêu như một \"kế hoạch sống\": tài chính + lifestyle + an sinh + di sản"
+      "Chỉ biết khách muốn kiếm thêm tiền",
+      "Biết khách muốn làm gì (mua nhà, tiết kiệm, đầu tư...)",
+      "Khách có mục tiêu gắn với thời gian (3-5 năm, 10 năm...) và hoàn cảnh gia đình",
+      "Hiểu được toàn bộ kế hoạch cuộc sống của khách và vai trò của tài chính trong đó"
     ]
   },
   {
@@ -1006,7 +1006,7 @@ function submitToSheets() {
   }).then(function() {
     submitted = true;
     btn.textContent = "Đã gửi thành công";
-    setStatus("success", "Kết quả của " + caName + " đã được ghi vào Google Sheets. Trainer sẽ liên hệ với bạn sớm.");
+    setStatus("success", "Kết quả của " + caName + " đã được ghi vào Google Sheets. Chúng tôi sẽ liên hệ với bạn sớm.");
   }).catch(function(err) {
     btn.disabled = false;
     setStatus("error", "Gửi thất bại — kiểm tra kết nối mạng và thử lại. (" + err.message + ")");
@@ -1031,7 +1031,7 @@ function restartAssessment() {
   document.getElementById("submit-status").textContent = "";
   var btn = document.getElementById("btn-submit");
   btn.disabled = false;
-  btn.textContent = "Gửi kết quả cho Trainer →";
+  btn.textContent = "Gửi kết quả →";
   showScreen('screen-intro');
 }
 </script>
